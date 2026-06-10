@@ -1,0 +1,11 @@
+numpy
+pandas
+nibabel
+scikit-learn
+torch
+torchvision
+python-docx
+reportlab
+pillow
+matplotlib
+tqdm

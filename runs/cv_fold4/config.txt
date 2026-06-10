@@ -1,0 +1,13 @@
+train_csv=folds/fold4_train.csv
+val_csv=folds/fold4_val.csv
+epochs=15
+batch_size=2
+lr=0.0002
+num_workers=0
+seed=42
+base_ch=16
+dropout=0.2
+model=densenet3d121
+out_dir=runs/cv_fold4
+device=cuda
+pos_weight=None

@@ -1,0 +1,4 @@
+Figure notes:
+HC p90 threshold (stage_pred): 0.4148
+HC p95 threshold (stage_pred): 0.4560
+Top subjects plotted: [211, 204, 189, 205, 203, 191]

@@ -1,0 +1,12 @@
+HC normative distribution (MRI progression score)
+Prediction column: stage_pred
+HC mean=0.2730, std=0.1017
+HC 90th percentile threshold=0.4148
+HC 95th percentile threshold=0.4560
+
+AD mean predicted score=0.3648
+AD visit01 mean predicted score=0.3125
+
+Interpretation:
+- hc_percentile is a risk-like index relative to healthy controls.
+- NOT a clinical probability of developing AD.

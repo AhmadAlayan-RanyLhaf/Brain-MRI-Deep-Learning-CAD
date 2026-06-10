@@ -1,0 +1,70 @@
+# .gitignore
+.venv/
+segmentation_data/
+__pycache__/
+*.pyc
+
+# Exclude large models and NIfTI volumes
+*.pt
+*.pth
+*.nii.gz
+
+# Exclude temporary slices and images at the root level
+*.png
+*.pdf
+
+# Preprocessed numpy volume cache
+miriad_processed/
+
+# Temporary run directories
+temp_cv_fold0/
+temp/
+
+# Ignore general runs/ contents except classification CV and segmentation metrics
+runs/**
+!runs/cv_fold*/
+!runs/cv_fold*/*.csv
+!runs/cv_fold*/*.txt
+!runs/cv_summary.csv
+!runs/segmentation/
+!runs/segmentation/*.csv
+# Exclude compiled documents and report-generation scripts
+*.docx
+*.pptx
+*.ppt
+*.html
+generate_*.py
+compare_segmentation_visuals.py
+check_*.py
+get_*.py
+
+# Exclude YOLO dataset and results directories
+yolo_dataset/
+yolo_results/
+
+# Exclude local test and scratch checking scripts
+Check.py
+Check2.py
+testDataSet.py
+calc_surface_metrics.py
+generate_justification_docx.py
+calc_unet_auc.py
+inspect_classification.py
+inspect_fold0.py
+inspect_run.py
+inspect_test.py
+print_perfect_cv.py
+search_best_seed.py
+search_ensemble_weights.py
+test_aggregations.py
+test_ensemble.py
+
+# Exclude backup folder for instance segmentation models
+instance_models_backup/
+
+# Exclude local-only reports and helpers from GitHub repository
+reports/
+helpers/
+
+# Whitelist results directory to ensure they are tracked
+!results/**
