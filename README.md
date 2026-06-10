@@ -133,9 +133,9 @@ This will evaluate the model on the 10 unseen test subjects and output the predi
 
 ---
 
-## 🧠 Methodology & Code Flow Guide (Research Paper Outline)
+## 🧠 Methodology & Code Flow Guide
 
-This section serves as a technical outline for the methodology and architectural design of the CAD framework, directly suitable for translation into research paper figures and text.
+This section serves as a technical outline for the methodology and architectural design of the CAD framework.
 
 ### 1. Unified Code Flow Schematic
 
@@ -189,7 +189,7 @@ This section serves as a technical outline for the methodology and architectural
      └──────────────┬──────────────┘                 └──────────────┬──────────────┘
 ```
 
-### 2. Core Methodology Blocks for Research Paper
+### 2. Core Methodology Blocks
 
 #### Block A: Grouped Subject-Level Splitting (Leakage Prevention)
 *   **The Problem**: Longitudinal datasets collect multiple MRI scans from the same subject over months or years. Splitting scans randomly causes the model to train on an early scan of Subject X and validate on a later scan of the same Subject X, leading to over-optimistic results due to spatial data leakage.
