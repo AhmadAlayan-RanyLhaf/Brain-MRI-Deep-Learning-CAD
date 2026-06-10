@@ -1,6 +1,0 @@
-fold,AUC,ACC,file
-0,1.0,1.0,runs\cv_fold0\val_subject_predictions.csv
-1,1.0,1.0,runs\cv_fold1\val_subject_predictions.csv
-2,1.0,1.0,runs\cv_fold2\val_subject_predictions.csv
-3,1.0,1.0,runs\cv_fold3\val_subject_predictions.csv
-4,1.0,1.0,runs\cv_fold4\val_subject_predictions.csv

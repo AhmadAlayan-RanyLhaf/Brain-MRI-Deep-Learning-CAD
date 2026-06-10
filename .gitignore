@@ -20,14 +20,8 @@ miriad_processed/
 temp_cv_fold0/
 temp/
 
-# Ignore general runs/ contents except classification CV and segmentation metrics
-runs/**
-!runs/cv_fold*/
-!runs/cv_fold*/*.csv
-!runs/cv_fold*/*.txt
-!runs/cv_summary.csv
-!runs/segmentation/
-!runs/segmentation/*.csv
+# Ignore all training runs and local checkpoints
+runs/
 # Exclude compiled documents and report-generation scripts
 *.docx
 *.pptx
