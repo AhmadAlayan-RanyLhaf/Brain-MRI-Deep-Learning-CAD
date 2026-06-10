@@ -12,8 +12,8 @@ import torch.nn as nn
 from torch.utils.data import DataLoader
 from sklearn.metrics import roc_auc_score, accuracy_score
 
-from model import build_model
-from dataset import MiriadMRIDataset
+from src.models.densenet3d import build_model
+from src.datasets.miriad import MiriadMRIDataset
 
 
 @dataclass

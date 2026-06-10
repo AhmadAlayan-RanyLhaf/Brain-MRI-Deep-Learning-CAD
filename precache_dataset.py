@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import nibabel as nib
 from concurrent.futures import ProcessPoolExecutor, as_completed
-from dataset import _center_crop_or_pad, _robust_normalize
+from src.datasets.miriad import _center_crop_or_pad, _robust_normalize
 
 def process_single_scan(path):
     try:

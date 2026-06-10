@@ -5,8 +5,8 @@ import pandas as pd
 from torch.utils.data import DataLoader
 from sklearn.metrics import roc_auc_score, accuracy_score, confusion_matrix
 
-from dataset import MiriadMRIDataset
-from model import Simple3DCNN
+from src.datasets.miriad import MiriadMRIDataset
+from src.models.densenet3d import build_model
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -25,7 +25,9 @@ def main():
 
     # Rebuild model with same hyperparams (if present)
     margs = ckpt.get("args", {})
-    model = Simple3DCNN(
+    model_name = margs.get("model", "simple3dcnn")
+    model = build_model(
+        name=model_name,
         base_ch=int(margs.get("base_ch", 16)),
         dropout=float(margs.get("dropout", 0.2)),
     ).to(DEVICE)

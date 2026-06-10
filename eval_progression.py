@@ -6,8 +6,8 @@ import pandas as pd
 import numpy as np
 from torch.utils.data import DataLoader
 
-from dataset_progression import MiriadProgressionDataset
-from model_progression import build_progression_model
+from src.datasets.progression import MiriadProgressionDataset
+from src.models.progression import build_progression_model
 
 
 def metas_to_list(meta_batch):

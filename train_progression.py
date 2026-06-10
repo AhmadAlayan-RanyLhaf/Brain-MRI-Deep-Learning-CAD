@@ -11,8 +11,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, Sampler
 
-from dataset_progression import MiriadProgressionDataset
-from model_progression import build_progression_model
+from src.datasets.progression import MiriadProgressionDataset
+from src.models.progression import build_progression_model
 
 
 def seed_all(seed: int):

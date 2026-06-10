@@ -7,8 +7,8 @@ import nibabel as nib
 import torch
 import torch.nn.functional as F
 
-from segmentation_model import UNet3D
-from segmentation_dataset import _center_crop_or_pad_3d
+from src.models.unet3d import UNet3D
+from src.datasets.segmentation import _center_crop_or_pad_3d
 
 # Helper to compute Dice and IoU
 def compute_metrics(pred: np.ndarray, target: np.ndarray, num_classes: int = 4):

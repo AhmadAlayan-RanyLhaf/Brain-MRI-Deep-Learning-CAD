@@ -10,8 +10,8 @@ from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from pathlib import Path
 
-from segmentation_model import UNet3D
-from segmentation_dataset import MiriadSegmentationDataset
+from src.models.unet3d import UNet3D
+from src.datasets.segmentation import MiriadSegmentationDataset
 
 class SoftDiceLoss(nn.Module):
     """

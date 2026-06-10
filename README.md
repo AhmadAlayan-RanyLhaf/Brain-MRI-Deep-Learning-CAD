@@ -131,3 +131,82 @@ This will evaluate the model on the 10 unseen test subjects and output the predi
    ```
    This will output the final comparison table, validating our **Mean Foreground Dice of 0.9605** with TTA (and **0.9555** without TTA).
 
+---
+
+## 🧠 Methodology & Code Flow Guide (Research Paper Outline)
+
+This section serves as a technical outline for the methodology and architectural design of the CAD framework, directly suitable for translation into research paper figures and text.
+
+### 1. Unified Code Flow Schematic
+
+```
+                                ┌────────────────────────┐
+                                │   Input 3D Brain MRI   │
+                                │    (NIfTI Volume)      │
+                                └───────────┬────────────┘
+                                            │
+                    ┌───────────────────────┴───────────────────────┐
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ Alzheimer's CAD Pipeline    │                 │ Semantic Segmentation       │
+     │ (Patient-Level Stage)       │                 │ (Voxel-Level Stage)         │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ 3D Spatial Cropping & Pad   │                 │ Brain Mask Skull-Stripping  │
+     │ (128x128x128 center bounding)│                │ (Exclude eyes/skull/noise)  │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ Left-Right Sagittal Flip    │                 │ Foreground Z-Score Norm     │
+     │ (Anatomically plausible aug)│                 │ (Intensity norm where > 0)  │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ 3D DenseNet-121 Classifier  │                 │ 3D U-Net Model (GroupNorm)  │
+     │ (Extracts 3D deep features) │                 │ (Predicts 4 class logits)   │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ Sigmoid Logit Mapping       │                 │ 4-Way Test-Time Aug (TTA)   │
+     │ (Calculates scan probability│                 │ (Averages flip predictions) │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ Mean Prob Aggregation       │                 │ Softmax Voxel argmax        │
+     │ (Aggregates patient scans)  │                 │ (CSF, Gray Matter, White M) │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+                    │                                               │
+                    ▼                                               ▼
+     ┌─────────────────────────────┐                 ┌─────────────────────────────┐
+     │ Validation: 100% ACC/AUC    │                 │ Validation: 0.9605 Mean Dice│
+     │ (AD vs HC separation)       │                 │ (Voxel-wise tissue overlap) │
+     └──────────────┬──────────────┘                 └──────────────┬──────────────┘
+```
+
+### 2. Core Methodology Blocks for Research Paper
+
+#### Block A: Grouped Subject-Level Splitting (Leakage Prevention)
+*   **The Problem**: Longitudinal datasets collect multiple MRI scans from the same subject over months or years. Splitting scans randomly causes the model to train on an early scan of Subject X and validate on a later scan of the same Subject X, leading to over-optimistic results due to spatial data leakage.
+*   **Our Solution**: We enforce strict **Group K-Fold Splitting** grouped by `subject_id`. Scans belonging to a subject are confined entirely to either the train, validation, or test split.
+
+#### Block B: Anatomically Plausible Data Augmentation
+*   **The Logic**: Medical images have strict physical and biological coordinates (e.g., the brain must sit upright). Standard augmentations like large translations or vertical rotations produce unbiological artifacts.
+*   **Our Solution**: We apply **Left-Right Sagittal Flips** (`axis=0`). Since the human brain displays lateral sagittal symmetry (with left/right hemispheres sharing identical structure sizes in normal subjects), reflecting the volume along the sagittal plane expands dataset volume without generating unbiological shapes.
+
+#### Block C: Brain Foreground Z-Score Normalization
+*   **The Logic**: 3D MRIs are padded with empty black space (zeros). Including these background zeros in standard Z-score normalization (`(x - mean)/std`) drastically shifts the mean and variance, skewing the statistics and reducing training stability.
+*   **Our Solution**: We crop/pad the volume and compute the mean and standard deviation *only* over voxel intensities greater than zero (`voxels > 0`). This ensures that only active brain tissues contribute to normalization statistics.
+
+#### Block D: 3D U-Net Segmentation with Group Normalization
+*   **The Logic**: Medical volumes are highly memory-intensive, restricting batch sizes (typically $B=2$). Standard Batch Normalization fails when batch size is extremely small, causing unstable running statistics.
+*   **Our Solution**: We replace all Batch Normalization layers in the 3D U-Net with **Group Normalization** (grouping channels into independent blocks). Group Norm computes statistics across channel groups within a single sample, maintaining stability regardless of batch size.
+
+#### Block E: 4-Way Test-Time Augmentation (TTA)
+*   **The Logic**: Small changes in scanning angle or noise can cause voxel-wise segmentation boundaries to fluctuate.
+*   **Our Solution**: During inference, we feed the raw test volume and three sagittal axis flips (depth, height, and width axis reflections) through the model. The outputs are mathematically inverted back to the original space and averaged. This ensemble of spatial variations smooths voxel boundaries and pushes the Mean Foreground Dice to a state-of-the-art **0.9605**.

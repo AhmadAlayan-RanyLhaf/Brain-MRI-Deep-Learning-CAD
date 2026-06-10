@@ -12,8 +12,8 @@ from sklearn.metrics import roc_auc_score, accuracy_score, precision_score, reca
 from PIL import Image
 
 # Import models
-from segmentation_model import UNet3D
-from segmentation_dataset import _center_crop_or_pad_3d
+from src.models.unet3d import UNet3D
+from src.datasets.segmentation import _center_crop_or_pad_3d
 
 # Device config
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

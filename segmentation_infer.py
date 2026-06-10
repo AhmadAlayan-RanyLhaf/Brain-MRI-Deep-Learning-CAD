@@ -6,8 +6,8 @@ import nibabel as nib
 import torch
 import torch.nn.functional as F
 
-from segmentation_model import UNet3D
-from segmentation_dataset import _center_crop_or_pad_3d
+from src.models.unet3d import UNet3D
+from src.datasets.segmentation import _center_crop_or_pad_3d
 
 def reverse_center_crop_or_pad_3d(pred_mask: np.ndarray, orig_shape: tuple) -> np.ndarray:
     """
