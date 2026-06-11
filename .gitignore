@@ -21,7 +21,25 @@ temp_cv_fold0/
 temp/
 
 # Ignore all training runs and local checkpoints
-runs/
+runs/*
+!runs/cv_fold0/
+!runs/cv_fold1/
+!runs/cv_fold2/
+!runs/cv_fold3/
+!runs/cv_fold4/
+!runs/segmentation/
+runs/cv_fold0/*
+!runs/cv_fold0/best.pt
+runs/cv_fold1/*
+!runs/cv_fold1/best.pt
+runs/cv_fold2/*
+!runs/cv_fold2/best.pt
+runs/cv_fold3/*
+!runs/cv_fold3/best.pt
+runs/cv_fold4/*
+!runs/cv_fold4/best.pt
+runs/segmentation/*
+!runs/segmentation/best.pt
 # Exclude compiled documents and report-generation scripts
 *.docx
 *.pptx
