@@ -1,6 +1,12 @@
 # .gitignore
 .venv/
-segmentation_data/
+segmentation_data/*
+!segmentation_data/images/
+!segmentation_data/labels/
+segmentation_data/images/*
+!segmentation_data/images/sub-188_img.nii.gz
+segmentation_data/labels/*
+!segmentation_data/labels/sub-188_lbl.nii.gz
 __pycache__/
 *.pyc
 
@@ -8,6 +14,8 @@ __pycache__/
 *.pt
 *.pth
 *.nii.gz
+!segmentation_data/images/sub-188_img.nii.gz
+!segmentation_data/labels/sub-188_lbl.nii.gz
 
 # Exclude temporary slices and images at the root level
 *.png
