@@ -88,3 +88,10 @@ helpers/
 
 # Whitelist results directory to ensure they are tracked
 !results/**
+
+# Exclude OASIS raw and processed datasets and local tarballs
+oasis_raw/
+oasis_processed/
+oasis_cross-sectional_*.tar.gz
+oasis_cross-sectional_*.zip
+
